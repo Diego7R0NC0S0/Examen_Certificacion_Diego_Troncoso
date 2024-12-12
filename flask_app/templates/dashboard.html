@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>CinePedia</title>
+    <style>
+        header{
+            height: 20rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+
+        }
+        .h-div{
+            display: flex;
+            flex: 1;
+
+        }
+        .h-div1{
+            flex: 1;
+            margin-left: 5rem;
+
+        }
+        .h-div2{
+            display: flex;
+            flex: 1;
+            justify-content: center;
+            flex-direction: row-reverse;
+            align-items: center;
+            margin-right: 5rem;
+        }
+        .btn-tamaño{
+            width: 20rem;
+            height: 4rem;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+
+
+        }
+        main{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        h1{
+            font-size: 6rem;
+        }
+        .div-table{
+            width: 180rem;
+            font-size: 3rem;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="h-div">
+            <div class="h-div1">
+                <h1>Bienvenid@ {{session['nombre']}}</h1><br>
+            </div>
+            <div class="h-div2">
+                <form action="/cerrar_sesion" method="POST" >
+                    <button type="submit" class="btn btn-danger btn-tamaño">Cerrar sesion</button>
+                </form>
+                <form action='/nueva_pelicula' method="GET" >
+                    <button type="submit" class="btn btn-primary btn-tamaño">Nueva Peli</button>
+                </form>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="div-table">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col">Película</th>
+                        <th scope="col">Director</th>
+                        <th scope="col">Fecha Estreno</th>
+                        <th scope="col"> Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pelicula in peliculas %}
+                    <tr>
+                        <td>{{ pelicula.pelicula }}</td>
+                        <td>{{ pelicula.director }}</td>
+                        <td>{{pelicula.fecha_inicio.strftime('%Y-%m-%d %H:%M')}}</td>
+                        <td>
+                            <a href="{{ url_for('ver_pelicula', id=pelicula.id_pelicula) }}" class="action-link">Ver</a>
+                            {% if pelicula.id_organizador == usuario.id %}
+                            <a href="{{ url_for('editar_pelicula', id=pelicula.id_pelicula) }}" class="action-link">Editar</a>
+                            <a href="{{ url_for('eliminar_pelicula', id=pelicula.id_pelicula) }}" class="action-link"
+                            onclick="return confirm('¿Estás seguro de querer eliminar este pelicula?')">Borrar</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="5" style="text-align: center;">No hay peliculas registrados</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+    <footer></footer>
+</body>
+</html>

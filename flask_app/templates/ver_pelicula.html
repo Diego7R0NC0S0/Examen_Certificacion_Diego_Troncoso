@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ver Peli</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<style>
+    header{
+        height: 20rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .h-div{
+        display: flex;
+        flex: 1;
+    }
+    .h-div1{
+        flex: 1;
+        margin-left: 5rem;
+    }
+    .h-div2{
+        display: flex;
+        flex: 1;
+        justify-content: center;
+        flex-direction: row-reverse;
+        align-items: center;
+        margin-right: 5rem;
+    }
+    .btn-tamaño{
+        width: 20rem;
+        height: 4rem;
+        font-size: 1.5rem;
+        margin-right: 1rem;
+    }
+    .btn1-tamaño{
+        width: 10rem;
+        height: 4rem;
+        font-size: 1.5rem;
+        margin-right: 1rem;
+    }
+    main{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .card-content{
+        display: flex;
+        justify-content: center;
+        font-size: 1.5rem;
+        width: 65rem;
+        height: 55rem;
+        padding-top: 5rem;
+        padding-left: 6rem;
+
+    }
+    .form-content{
+        font-size: 1.5rem;
+        margin: 1rem;
+        justify-self: center;
+        align-items: center;
+    }
+    h1{
+        font-size: 5rem;
+        margin-bottom: 4rem;
+    }
+</style>
+<body>
+<header>
+    <div class="h-div">
+        <div class="h-div1">
+        </div>
+        <div class="h-div2">
+            <form action="/cerrar_sesion" method="POST" >
+                <button type="submit" class="btn btn-danger btn-tamaño">Cerrar sesion</button>
+            </form>
+            <form action='/dashboard' method="GET" >
+                <button type="submit" class="btn btn-primary btn1-tamaño">Inicio</button>
+            </form>
+        </div>
+    </div>
+</header>
+<main>
+<div class="card card-content">
+    <div class="card-body">
+        {% block content %}
+            <h1>{{ pelicula.pelicula }}</h1>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="flash-message {{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="exampleFormControlTextarea1">Publicado por: {{ pelicula.organizador }}</label>
+                </div>
+            </div> <br>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="exampleFormControlTextarea1">Director: {{ pelicula.director }}</label>
+                </div>
+            </div><br>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="exampleFormControlTextarea1">Fecha:{{ pelicula.fecha_inicio.strftime('%d/%m/%Y - %H:%M') }}</label>
+                </div>
+            </div><br>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="exampleFormControlTextarea1">Sinopsis: {{ pelicula.sinopsis}}</label>
+                </div>
+            </div>
+        {% endblock %}
+    </div>
+</div>
+</main>
+
+</body>
+</html>
